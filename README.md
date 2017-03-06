@@ -65,8 +65,22 @@ comk        | Kills a command ("*" for all)
 clik        | Kills a client ("*" for all)                                  
 
 ```
-Utilizing a command queue, you can fire mutliple commands and the client will execute them one by one.
+Utilizing the command queue, you can fire mutliple commands and the client will execute them one by one.
 All the commands are executed using a single context, so you issue mutiple related commands.
+
+To view the commands issued to a client, first select a client:
+```python
+>> select 1
+```
+
+Then, issue the `coms` command to view all the commands for the client:
+``` python
+(Client 1) >> coms
+```
+To view the full command and it's full output (on the `coms` command the output is truncated to fit the screen):
+```python
+(Client 1) >> com 1
+```
 
 ## Credits
 [Canop](https://github.com/Canop) for [JSON.prune](https://github.com/Canop/JSON.prune/)
