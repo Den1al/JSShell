@@ -51,7 +51,7 @@ python shell.py
 ```
 
 ### Optional : Pre flight scripts
-Those are scripts that will execute on every visist of a new client. Use them wisely :)
+Those are scripts that will execute on every registration of a new client. Use them wisely :)
 
 ### Profit :)
 
