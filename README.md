@@ -96,6 +96,7 @@ To view the full command and it's full output (on the `coms` command the output 
 
 ## Workflow
 After all the installations and configuration is done, the workflow of the application is the following:
+
 1. Client visits the home page `http://localhost:5000/`
 
 2. He makes a `register` request to the server
