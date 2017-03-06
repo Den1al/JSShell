@@ -34,15 +34,21 @@ pip install -r requirements.txt
 * Command Context
 
 ## Running
-1. Start the server (at the background):
+1. Create the database
+```python
+python db_handler.py create
+```
+2. Start the server (at the background):
 ```python
 python run.py
 ```
-2. Navigate with a browser to the server address
-3. Open the interactive shell
+3. Navigate with a browser to the server address
+4. Open the interactive shell
 ```python
 python shell.py
 ```
+5. Profit
+
 ### Usage
 The shell interface contains various commands (can be reavealed using the `help` command).
 ```python
@@ -81,6 +87,10 @@ To view the full command and it's full output (on the `coms` command the output 
 ```python
 (Client 1) >> com 1
 ```
+
+## Database Handling
+I have included a script that i've been using during tests, which is the `db_handler.py` file. It includes varius function to handle and test your database.
+
 
 ## Credits
 [Canop](https://github.com/Canop) for [JSON.prune](https://github.com/Canop/JSON.prune/)
