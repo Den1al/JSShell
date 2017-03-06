@@ -49,6 +49,10 @@ If you running localy, then navigate to `http://localhost:5000` (port can be cha
 ```python
 python shell.py
 ```
+
+### Optional : Pre flight scripts
+Those are scripts that will execute on every visist of a new client. Use them wisely :)
+
 ### Profit :)
 
 ### Usage
