@@ -34,20 +34,20 @@ pip install -r requirements.txt
 * Command Context
 
 ## Running
-1. Create the database
+* Create the database
 ```python
 python db_handler.py create
 ```
-2. Start the server (at the background):
+* Start the server (at the background):
 ```python
 python run.py
 ```
-3. Navigate with a browser to the server address
-4. Open the interactive shell
+* Navigate with a browser to the server address
+* Open the interactive shell
 ```python
 python shell.py
 ```
-5. Profit
+* Profit
 
 ### Usage
 The shell interface contains various commands (can be reavealed using the `help` command).
