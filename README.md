@@ -53,7 +53,7 @@ python shell.py
 ### Optional : Pre flight scripts
 Those are scripts that will execute on every registration of a new client. Use them wisely :)
 
-### Profit :)
+##### Profit :)
 
 ### Usage
 The shell interface contains various commands (can be reavealed using the `help` command).
@@ -93,6 +93,16 @@ To view the full command and it's full output (on the `coms` command the output 
 ```python
 (Client 1) >> com 1
 ```
+
+## Workflow
+After all the installations and configuration is done, the workflow of the application is the following:
+1. Client visits the home page `http://localhost:5000/`.
+2. He makes a `register` request to the server.
+3. Waits for commands.
+4. In the meanwhile, on the server, you execute commands using the `shell.py` script.
+5. The client probes the server for commands, see a new one appeared, pulls it and executes it.
+6. Once he's done executing, he will post back the result to the server.
+7. Now, using the `coms` command, we can see the output for that command.
 
 ## Database Handling
 I have included a script that i've been using during tests, which is the `db_handler.py` file. It includes varius function to handle and test your database.
