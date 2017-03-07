@@ -85,12 +85,15 @@ class InteractiveShell(object):
     def display_commands(self, com_id = None):
         """ Displays all the commands executed on a client """
         if com_id:
+            client = Client.query.filter_by(id=self.current_client_id).first()
+            if not com_id in [str(i.id) for i in client.commands]:
+                self.error('Selected client does not have this command ID.')
+                return
+
             com = Command.query.filter_by(id=com_id).first()
-            if com:
-                print('(Command {}) : \n{}'.format(com.id, beautify(com.cmd)))
-                print('(Output  {}) : \n{}'.format(com.id, beautify(com.output)))
-            else:
-                self.error('Command ID does not exists')
+            print('(Command {}) : \n{}'.format(com.id, beautify(com.cmd)))
+            print('(Output  {}) : \n{}'.format(com.id, beautify(com.output)))
+
             return
 
         t = PrettyTable(['ID', 'Command', 'Output'])
