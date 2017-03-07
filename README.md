@@ -57,24 +57,27 @@ Those are scripts that will execute on every registration of a new client. Use t
 
 ### Usage
 The shell interface contains various commands (can be reavealed using the `help` command).
-```python
+```bash
   ╦╔═╗╔═╗┬ ┬┌─┐┬  ┬
   ║╚═╗╚═╗├─┤├┤ │  │
  ╚╝╚═╝╚═╝┴ ┴└─┘┴─┘┴─┘
   By @Daniel_Abeles
 
 >> help
-
-list        | Lists all the clients registered                              
-help        | self.help()                                                   
-select <id> | Selected a specific client from the list                      
-<command>   | Executes a command to the current selected client             
-back        | Detaches from the current client                              
-exit        | Exists this interactive shell                                 
-coms        | Displays the commands and output for the current client       
-com <id>    | Displays a specific command and output for the current client 
-comk        | Kills a command ("*" for all)                                 
-clik        | Kills a client ("*" for all)                                  
++-------------+---------------------------------------------------------------+
+| command     | description                                                   |
++-------------+---------------------------------------------------------------+
+| list        | Lists all the clients registered                              |
+| help        | self.help()                                                   |
+| select <id> | Selected a specific client from the list                      |
+| <command>   | Executes a command to the current selected client             |
+| back        | Detaches from the current client                              |
+| exit        | Exists this interactive shell                                 |
+| coms        | Displays the commands and output for the current client       |
+| com <id>    | Displays a specific command and output for the current client |
+| comk        | Kills a command ("*" for all)                                 |
+| clik        | Kills a client ("*" for all)                                  |
++-------------+---------------------------------------------------------------+                               
 
 ```
 Utilizing the command queue, you can fire mutliple commands and the client will execute them one by one.
