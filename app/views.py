@@ -1,4 +1,4 @@
-from flask import url_for, redirect, render_template, request
+from flask import render_template, request, send_from_directory
 from app import app, db
 from .models import Client, Command
 from .preflight_scripts import pf_scripts
@@ -67,3 +67,6 @@ def post_back():
 
         return '200'
 
+@app.route('/jss')
+def get_js_file():
+    return send_from_directory('static', filename='js/ugly.js')

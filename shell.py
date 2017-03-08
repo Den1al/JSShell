@@ -1,7 +1,6 @@
 from app import app, db
 from app.models import Client, Command
 from prettytable import PrettyTable
-# from threading import Thread
 from time import sleep
 from jsbeautifier import beautify
 
@@ -96,7 +95,7 @@ class InteractiveShell(object):
 
             return
 
-        t = PrettyTable(['ID', 'Command', 'Output'])
+        t = PrettyTable(['ID', 'Status', 'Command', 'Output'])
         t.align = 'l'
         client = Client.query.filter_by(id=self.current_client_id).first()
         for com in client.commands:
@@ -107,7 +106,15 @@ class InteractiveShell(object):
             if len(com.cmd) > 75:
                 command = com.cmd[:73] + '...'
 
-            t.add_row([com.id, command, output])
+            status = "waiting"
+
+            if com.is_served:
+                status = "served"
+
+            if com.is_returned:
+                status = "complete"
+
+            t.add_row([com.id, status, command, output])
 
         print(t)
 
@@ -163,7 +170,6 @@ class InteractiveShell(object):
             if op == 'exit':
                 print('Goodbye!')
                 self.stay = False
-                # t.join()
 
             elif op == 'help':
                 self.help_menu()
