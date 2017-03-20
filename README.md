@@ -1,6 +1,6 @@
 # JSShell
 
-An interactive multi-user web based shell written in Python with Flask (for server side) and of course Javascript and HTML (client side). It was initally created in order to debug remote isoteric browsers during tests and research. I am well aware of other purposes this tool might serve, use it at your own responabilty and risk.
+An interactive multi-user web based JS shell written in Python with Flask (for server side) and of course Javascript and HTML (client side). It was initially created to debug remote esoteric browsers during tests and research. I'm aware of other purposes this tool might serve, use it at your own responsibility and risk.
 
 ## Author
 [Daniel Abeles](https://twitter.com/Daniel_Abeles).
@@ -43,7 +43,7 @@ python db_handler.py create
 python run.py
 ```
 ### Navigate with a browser to the server address
-If you running localy, then navigate to `http://localhost:5000` (port can be changed)
+If you running localy, then navigate to `http://localhost:5000` (port and host can of course be changed)
 
 ### Open the interactive shell
 ```python
@@ -56,7 +56,7 @@ Those are scripts that will execute on every registration of a new client. Use t
 ##### Profit :)
 
 ### Usage
-The shell interface contains various commands (can be reavealed using the `help` command).
+The shell interface contains various commands (can be revealed using the `help` command).
 ```bash
   ╦╔═╗╔═╗┬ ┬┌─┐┬  ┬
   ║╚═╗╚═╗├─┤├┤ │  │
@@ -81,7 +81,7 @@ The shell interface contains various commands (can be reavealed using the `help`
 
 ```
 Utilizing the command queue, you can fire mutliple commands and the client will execute them one by one.
-All the commands are executed using a single context, so you issue mutiple related commands.
+All the commands are executed using a single context, so all of the commands are aware of each other (same scope).
 
 To view the commands issued to a client, first select a client:
 ```python
@@ -100,23 +100,23 @@ To view the full command and it's full output (on the `coms` command the output 
 ## Workflow
 After all the installations and configuration is done, the workflow of the application is the following:
 
-1. Client visits the home page `http://localhost:5000/`
+1. Client visits the home page `http://localhost:5000/` (or the host you chose)
 
-2. He makes a `register` request to the server
+2. The client makes an asynchronous `register` request to the server
 
-3. Waits for commands
+3. Then he waits for commands
 
 4. In the meanwhile, on the server, you execute commands using the `shell.py` script
 
-5. The client probes the server for commands, see a new one appeared, pulls it and executes it
+5. The client probes the server for commands, when he sees a new one appeared, he pulls it and executes it
 
 6. Once he's done executing, he will post back the result to the server
 
-7. Now, using the `coms` command, we can see the output for that command
+7. Now, using the `coms` command, you can see the output for that command
 
 
 ## Database Handling
-I have included a script that i've been using during tests, which is the `db_handler.py` file. It includes varius function to handle and test your database.
+I have included a script that I've been using during tests, which is the `db_handler.py` file. It includes varius function to handle and test your database.
 
 
 ## Credits
