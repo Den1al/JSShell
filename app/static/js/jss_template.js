@@ -27,7 +27,7 @@
         };
 
         $.ajax({
-            url: "/register/",
+            url: "{{ HOST_NAME }}/register/",
             type: "POST",
             data: formData,
             success: function (data, textStatus, jqXHR) {
@@ -45,7 +45,7 @@
     this.getCommand = function() {
 
         $.ajax({
-            url: "/get_command/" + this.id,
+            url: "{{ HOST_NAME }}/get_command/" + this.id,
             type: "GET",
             dataType: 'json',
             context: this,
@@ -84,7 +84,7 @@
     this.postBack = function(data) {
 
         $.ajax({
-            url: "/post_back/",
+            url: "{{ HOST_NAME }}/post_back/",
             type: "POST",
             data: data,
             success: function (data, textStatus, jqXHR) {
