@@ -7,7 +7,7 @@ def costume_jss_template(config):
     with open('app/static/js/jss_template.js', 'r') as template, \
             open('app/static/js/jss_injected.js', 'w') as injected:
 
-        template_content = template.read().replace('{{ HOST_NAME }}', config['URL'])
+        template_content = template.read().replace('{{ URL }}', config['URL']).replace('{{ PORT }}', config['PORT'])
         injected.write(template_content)
 
 
