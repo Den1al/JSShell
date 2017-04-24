@@ -13,7 +13,6 @@ class Config(object):
     HOST = '0.0.0.0'
     URL = 'http://yourwebsite.com'
 
-    MINIFY_JS = True
 
 class ProductionConfig(Config):
     DATABASE_URI = 'mysql://user@localhost/foo'
