@@ -1,4 +1,4 @@
-from flask import render_template, request, send_from_directory
+from flask import render_template, request
 from app import app, db
 from .models import Client, Command
 from .preflight_scripts import pf_scripts
@@ -67,22 +67,9 @@ def post_back():
 
         return '200'
 
-# @app.route('/jss')
-# def get_js_file():
-#     with open('app/static/js/jquery.min.js', 'r') as jq:
-#         jquery = jq.read()
-#
-#     with open('app/static/js/prune.js', 'r') as pr:
-#         prune = pr.read()
-#
-#     with open('app/static/js/jss_template.js', 'r') as template:
-#         temp = template.read().\
-#             replace('{{ URL }}', app.config['URL']).\
-#             replace('{{ PORT }}', str(app.config['PORT']))
-#
-#     js  = '\n'.join((jquery, prune, temp))
-#     return js
 
 @app.route('/js')
 def get_js_file():
-    return render_template('jss_template.js', url = app.config.get('URL'), port = app.config.get('PORT'))
+    return render_template('jss_template.js',
+                           url = app.config.get('URL'),
+                           port = app.config.get('PORT'))

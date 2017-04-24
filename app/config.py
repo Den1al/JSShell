@@ -11,7 +11,9 @@ class Config(object):
 
     PORT = 5000
     HOST = '0.0.0.0'
-    URL = 'http://lala.com'
+    URL = 'http://yourwebsite.com'
+
+    MINIFY_JS = True
 
 class ProductionConfig(Config):
     DATABASE_URI = 'mysql://user@localhost/foo'
