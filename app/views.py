@@ -70,7 +70,8 @@ def post_back():
 
 @app.route('/jss')
 def get_js_file():
-    return send_from_directory('static', filename='js/ugly.js')
+    costume_jss_template(app.config)
+    return send_from_directory('static', filename='js/jss_injected.js')
 
 
 def costume_jss_template(config):

@@ -10,7 +10,6 @@ if __name__ == "__main__":
 
     # use gevent WSGI server instead of the Flask
 
-
     port = app.config.get('PORT')
     host = app.config.get('HOST')
 
