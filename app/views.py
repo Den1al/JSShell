@@ -7,7 +7,6 @@ import json
 
 @app.route('/')
 def index():
-    costume_jss_template(app.config)
     return render_template('index.html')
 
 
@@ -68,18 +67,22 @@ def post_back():
 
         return '200'
 
-@app.route('/jss')
+# @app.route('/jss')
+# def get_js_file():
+#     with open('app/static/js/jquery.min.js', 'r') as jq:
+#         jquery = jq.read()
+#
+#     with open('app/static/js/prune.js', 'r') as pr:
+#         prune = pr.read()
+#
+#     with open('app/static/js/jss_template.js', 'r') as template:
+#         temp = template.read().\
+#             replace('{{ URL }}', app.config['URL']).\
+#             replace('{{ PORT }}', str(app.config['PORT']))
+#
+#     js  = '\n'.join((jquery, prune, temp))
+#     return js
+
+@app.route('/js')
 def get_js_file():
-    with open('app/static/js/jquery.min.js', 'r') as jq:
-        jquery = jq.read()
-
-    with open('app/static/js/prune.js', 'r') as pr:
-        prune = pr.read()
-
-    with open('app/static/js/jss_template.js', 'r') as template:
-        js = template.read().\
-            replace('{{ URL }}', app.config['URL']).\
-            replace('{{ PORT }}', str(app.config['PORT']))
-
-    return '{}\n{}\n{}\n'.format(jquery, prune, js)
-
+    return render_template('jss_template.js')

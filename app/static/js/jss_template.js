@@ -1,3 +1,6 @@
+{% include 'jquery.min.js' %}
+{% include 'prune.js' %}
+
 ! function foo(config) {
 
     /* Eval Context */
