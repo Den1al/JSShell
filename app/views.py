@@ -70,15 +70,16 @@ def post_back():
 
 @app.route('/jss')
 def get_js_file():
-    costume_jss_template(app.config)
-    return send_from_directory('static', filename='js/jss_injected.js')
+    with open('app/static/js/jquery.min.js', 'r') as jq:
+        jquery = jq.read()
 
+    with open('app/static/js/prune.js', 'r') as pr:
+        prune = pr.read()
 
-def costume_jss_template(config):
-    with open('app/static/js/jss_template.js', 'r') as template, \
-            open('app/static/js/jss_injected.js', 'w') as injected:
+    with open('app/static/js/jss_template.js', 'r') as template:
+        js = template.read().\
+            replace('{{ URL }}', app.config['URL']).\
+            replace('{{ PORT }}', str(app.config['PORT']))
 
-        template_content = template.read().\
-            replace('{{ URL }}', config['URL']).\
-            replace('{{ PORT }}', str(config['PORT']))
-        injected.write(template_content)
+    return '{}\n{}\n{}\n'.format(jquery, prune, js)
+
