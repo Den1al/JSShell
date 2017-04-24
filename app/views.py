@@ -85,4 +85,4 @@ def post_back():
 
 @app.route('/js')
 def get_js_file():
-    return render_template('jss_template.js')
+    return render_template('jss_template.js', url = app.config.URL, port = app.config.PORT)
