@@ -9,8 +9,8 @@ class Config(object):
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-    PORT = 5010
-    HOST = '127.0.0.1'
+    PORT = 5000
+    HOST = '0.0.0.0'
     URL = 'http://lala.com'
 
 class ProductionConfig(Config):
