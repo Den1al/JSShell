@@ -9,6 +9,9 @@ class Config(object):
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    PORT = 5010
+    HOST = '127.0.0.1'
+
 class ProductionConfig(Config):
     DATABASE_URI = 'mysql://user@localhost/foo'
 
