@@ -32,6 +32,7 @@ pip install -r requirements.txt
 * Pre flight scripts
 * Command queue
 * Command Context
+* Injectable via `<script>` tags
 
 ## Running
 ### Create the database
@@ -49,9 +50,17 @@ If you running localy, then navigate to `http://localhost:5000` (port and host c
 ```python
 python shell.py
 ```
-
 ### Optional : Pre flight scripts
 Those are scripts that will execute on every registration of a new client. Use them wisely :)
+
+### New: Injectable via `<script>` tag
+Now, by visiting the page `http://<yourwebsite>:<port>/js`, the server will automatically generate a new injection payload that contains all the dependencies, specific URL and PORT (from the config file).
+
+In order to comply with the feature, change the following values in the `config.py` file:
+* *URL* - the url of your website that contains the shell, i.e. `http://yourwebsite.com`.
+* *PORT* - the port that the your webserver listenes to.
+
+This method acts like a light-weight version of [BeeF](http://beefproject.com/).
 
 ##### Profit :)
 
