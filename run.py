@@ -1,4 +1,4 @@
-from app import app
+from app import app, config
 from gevent.pywsgi import WSGIServer
 from gevent import monkey
 
@@ -7,8 +7,17 @@ monkey.patch_all()
 
 if __name__ == "__main__":
 
-    print("Started JSShell server ...")
+
     # use gevent WSGI server instead of the Flask
 
-    http = WSGIServer(('', 5000), app.wsgi_app)
+    conf = config.DevelopmentConfig
+
+    port = conf.PORT
+    host = conf.HOST
+
+    print("Started JSShell server ...")
+    print("Host:",host)
+    print("Port:",port)
+
+    http = WSGIServer((host, port), app.wsgi_app)
     http.serve_forever()

@@ -1,6 +1,8 @@
 click==6.7
 EditorConfig==0.12.1
 Flask==0.12
+Flask-Cors==3.0.2
+Flask-Login==0.4.0
 Flask-SQLAlchemy==2.2
 gevent==1.2.1
 greenlet==0.4.12
