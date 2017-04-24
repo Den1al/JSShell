@@ -4,7 +4,6 @@ from flask_cors import CORS
 
 
 def costume_jss_template(config):
-    print(config)
     with open('app/static/js/jss_template.js', 'r') as template, \
             open('app/static/js/jss_injected.js', 'w') as injected:
 
