@@ -62,7 +62,7 @@ In order to comply with the feature, change the following values in the `config.
 * *URL* - the url of your website that contains the shell, i.e. `http://yourwebsite.com`.
 * *PORT* - the port that the your webserver listenes to.
 
-This method acts like a light-weight version of [BeeF](http://beefproject.com/).
+This method can be useful as a light-weight alternative to [BeeF](http://beefproject.com/).
 
 ##### Profit :)
 
