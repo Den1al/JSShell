@@ -154,15 +154,20 @@ class InteractiveShell(object):
             Client.query.filter_by(id=client_id).delete()
         db.session.commit()
 
+    def welcome(self):
+        try:
+            print("""
+         ╦╔═╗╔═╗┬ ┬┌─┐┬  ┬
+         ║╚═╗╚═╗├─┤├┤ │  │
+        ╚╝╚═╝╚═╝┴ ┴└─┘┴─┘┴─┘
+         By @Daniel_Abeles
+               """)
+        except:
+            print("""\n  JSShell - by @Daniel_Abeles\n""")
+
     def loop(self):
         """ The main loop for the class """
-
-        print("""
-  ╦╔═╗╔═╗┬ ┬┌─┐┬  ┬
-  ║╚═╗╚═╗├─┤├┤ │  │
- ╚╝╚═╝╚═╝┴ ┴└─┘┴─┘┴─┘
-  By @Daniel_Abeles
-        """)
+        self.welcome()
 
         while self.stay:
             op,_,tail = input(self.prompt).strip().partition(' ')
