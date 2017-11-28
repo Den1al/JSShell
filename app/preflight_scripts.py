@@ -1,4 +1,4 @@
-''' Pre flight scripts that will run on every client when they register '''
+""" Pre flight scripts that will run on every client when they register """
 
 pf_scripts = [
     "window",

@@ -4,6 +4,7 @@ import argparse
 import uuid
 
 def sqltry(func):
+    """ A Decorator that quietly runs a command """
     def wrap(*args, **kwargs):
         try:
             func(*args, **kwargs)
@@ -14,14 +15,16 @@ def sqltry(func):
 
 
 @sqltry
-def createTable():
+def create_table():
+    """ Creates the table """
     print('Creating table...')
     db.create_all()
     print('Done!')
 
 
 @sqltry
-def listRecords():
+def list_records():
+    """ Lists all records """
     print('Listing records...')
     clients = Client.query.all()
 
@@ -29,18 +32,30 @@ def listRecords():
         print(c)
 
 
+def list_client():
+    """ Lists a specific client """
+    client_id = int(input('Which client to list?>> '))
+    c = Client.query.filter_by(id=client_id).first()
+
+    if not c:
+        print('Client does not exists.')
+        return
+
+    print(c)
+
 @sqltry
-def insertRecord(_idDefault = str(uuid.uuid4()), userAgentDefault = 'Mozilla Testing/1.0', ipDefault = '127.0.0.1'):
+def insert_record(_id_default = str(uuid.uuid4()), ua_default ='Mozilla Testing/1.0', ip_default ='127.0.0.1'):
+    """ Inserts a records to the DB """
     print('Enter Values: ')
 
     _id = input('UUID: ')
-    if not _id: _id = _idDefault
+    if not _id: _id = _id_default
 
     user_agent = input('User-Agent: ')
-    if not user_agent: user_agent = userAgentDefault
+    if not user_agent: user_agent = ua_default
 
     ip = input('IP: ')
-    if not ip: ip = ipDefault
+    if not ip: ip = ip_default
 
     c = Client(_id, user_agent, ip)
     db.session.add(c)
@@ -48,7 +63,8 @@ def insertRecord(_idDefault = str(uuid.uuid4()), userAgentDefault = 'Mozilla Tes
 
 
 @sqltry
-def insertDummy():
+def insert_dummy():
+    """ Inserts a dummy object to the DB """
     _id = str(uuid.uuid4())
     user_agent = 'Mozilla Testing/1.0'
     ip = '127.0.0.1'
@@ -58,7 +74,8 @@ def insertDummy():
 
 
 @sqltry
-def dropTable():
+def drop_table():
+    """ Drops the table """
     if input('Sure? [y/n]') == 'y':
         db.drop_all()
         print('Table dropped.')
@@ -66,20 +83,24 @@ def dropTable():
         print('Bad choice. Bye!')
 
 @sqltry
-def dropCreateList():
-    dropTable()
-    createTable()
-    listRecords()
+def drop_create_list():
+    """ Drops -> Creates -> Lists the database """
+    drop_table()
+    create_table()
+    list_records()
 
 
 @sqltry
-def truncateTable():
+def truncate_table():
+    """ Truncates the database """
     Client.query.delete()
     db.session.commit()
 
 
 @sqltry
-def createCommand():
+def create_command():
+    """ Creates a command """
+
     i = input('Enter Client ID: ')
     c = Command('aaa','bbb')
     u = Client.query.filter_by(id=int(i)).first()
@@ -91,20 +112,19 @@ def createCommand():
 if __name__ == "__main__":
 
     actions = {
-        'list' : listRecords,
-        'create' : createTable,
-        'insert' : insertRecord,
-        'dummy' : insertDummy,
-        'drop' : dropTable,
-        'dcl' : dropCreateList,
-        'trunc' : truncateTable,
-        'com' : createCommand
+        'list': list_records,
+        'client': list_client,
+        'create': create_table,
+        'insert': insert_record,
+        'dummy': insert_dummy,
+        'drop': drop_table,
+        'dcl': drop_create_list,
+        'trunc': truncate_table,
+        'com': create_command
     }
 
     parser = argparse.ArgumentParser(description='DB Handler')
     parser.add_argument('action', choices=actions.keys())
-
-
 
     args = parser.parse_args()
     actions[args.action]()
