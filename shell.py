@@ -7,6 +7,7 @@ from jsbeautifier import beautify
 
 class InteractiveShell(object):
     """ An interactive shell for the JSShell Project """
+
     def __init__(self):
         self.stay = True
         self.prompt = '>> '
@@ -27,6 +28,7 @@ class InteractiveShell(object):
 
     def list_clients(self):
         """ Lists all the clients available """
+
         t = PrettyTable(['#', 'UUID', 'User-Agent', 'IP', 'Last Beacon'])
         t.align = 'l'
         for c in Client.query.all():
@@ -35,6 +37,7 @@ class InteractiveShell(object):
 
     def help_menu(self):
         """ Prints a pretty help menu """
+
         t = PrettyTable(['command', 'description'])
         t.align = 'l'
         t.add_row(['list', 'Lists all the clients registered'])
@@ -51,6 +54,7 @@ class InteractiveShell(object):
 
     def select_client(self, selected_id):
         """ Selected a client by ID """
+
         if not selected_id.isdigit():
             self.error('Selected ID must be an integer from the list.')
             return
@@ -66,12 +70,14 @@ class InteractiveShell(object):
 
     def back(self):
         """ Detaches from a client """
+
         self.prompt = '>> '
         self.current_client_id = 0
 
     @client_required
     def execute_command(self, cmd):
         """ Executes a command on a client """
+
         client = Client.query.filter_by(id=self.current_client_id).first()
         c = Command(cmd)
         client.commands.append(c)
@@ -83,6 +89,7 @@ class InteractiveShell(object):
     @client_required
     def display_commands(self, com_id = None):
         """ Displays all the commands executed on a client """
+
         if com_id:
             client = Client.query.filter_by(id=self.current_client_id).first()
             if not com_id in [str(i.id) for i in client.commands]:
@@ -120,6 +127,7 @@ class InteractiveShell(object):
 
     def watch_for_commands(self):
         """ A thread that will watch for incoming commands and print them """
+
         while True:
             if not self.current_client_id:
                 continue
@@ -140,6 +148,7 @@ class InteractiveShell(object):
     @client_required
     def command_kill(self, command_id):
         """ Kills a specific command for a client and removes it from the DB """
+
         if command_id == '*':
             Command.query.filter_by(rel_client_id=self.current_client_id).delete()
         else:
@@ -148,6 +157,7 @@ class InteractiveShell(object):
 
     def client_kill(self, client_id):
         """ Kills a specific client and removes it from the DB """
+
         if client_id == '*':
             Client.query.delete()
         else:
@@ -167,10 +177,11 @@ class InteractiveShell(object):
 
     def loop(self):
         """ The main loop for the class """
+
         self.welcome()
 
         while self.stay:
-            op,_,tail = input(self.prompt).strip().partition(' ')
+            op, _, tail = input(self.prompt).strip().partition(' ')
 
             if op == 'exit':
                 print('Goodbye!')

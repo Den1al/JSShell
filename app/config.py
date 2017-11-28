@@ -11,11 +11,12 @@ class Config(object):
 
     PORT = 5000
     HOST = '0.0.0.0'
-    URL = 'http://yourwebsite.com'
+    URL = 'http://localhost'
 
 
 class ProductionConfig(Config):
     DATABASE_URI = 'mysql://user@localhost/foo'
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

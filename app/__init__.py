@@ -11,6 +11,7 @@ my_loader = jinja2.ChoiceLoader([
         jinja2.FileSystemLoader(['app/static/js/',
                                  'app/templates/']),
     ])
+
 app.jinja_loader = my_loader
 
 cors = CORS(app)

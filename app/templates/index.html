@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/prune.js') }}"></script>
+    <title>JSShell</title>
 </head>
 <body>
 
+<code>Watch the console for a new client...</code><br>
 <code>var s = "jsshell_client";</code>
 
 <!-- JS Shell -->
-<script src="{{ url_for('static', filename='js/jss.js') }}"></script>
+<script src="{{ url_for('get_js_file') }}"></script>
+
 
 </body>
 </html>
