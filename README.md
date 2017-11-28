@@ -52,7 +52,6 @@ If you running locally, then navigate to `http://localhost:5000` (port can be ch
 ```python
 python shell.py
 ```
-
 ### Optional : Pre flight scripts
 Those are scripts that will execute on every registration of a new client.
 By default I included pre-flight scripts which grab the following:
@@ -65,29 +64,33 @@ By default I included pre-flight scripts which grab the following:
 They are mainly useful when you are automating this process and you know apriori what you want to collect.
 
 ### Usage
-The shell interface contains various commands (can be reavealed using the `help` command).
-```python
+The shell interface contains various commands (can be revealed using the `help` command).
+```bash
   ╦╔═╗╔═╗┬ ┬┌─┐┬  ┬
   ║╚═╗╚═╗├─┤├┤ │  │
  ╚╝╚═╝╚═╝┴ ┴└─┘┴─┘┴─┘
   By @Daniel_Abeles
 
 >> help
-
-list        | Lists all the clients registered                              
-help        | self.help()                                                   
-select <id> | Selected a specific client from the list                      
-<command>   | Executes a command to the current selected client             
-back        | Detaches from the current client                              
-exit        | Exists this interactive shell                                 
-coms        | Displays the commands and output for the current client       
-com <id>    | Displays a specific command and output for the current client 
-comk        | Kills a command ("*" for all)                                 
-clik        | Kills a client ("*" for all)                                  
++-------------+---------------------------------------------------------------+
+| command     | description                                                   |
++-------------+---------------------------------------------------------------+
+| list        | Lists all the clients registered                              |
+| help        | self.help()                                                   |
+| select <id> | Selected a specific client from the list                      |
+| <command>   | Executes a command to the current selected client             |
+| back        | Detaches from the current client                              |
+| exit        | Exists this interactive shell                                 |
+| coms        | Displays the commands and output for the current client       |
+| com <id>    | Displays a specific command and output for the current client |
+| comk        | Kills a command ("*" for all)                                 |
+| clik        | Kills a client ("*" for all)                                  |
++-------------+---------------------------------------------------------------+                               
 
 ```
 Utilizing the command queue, you can fire multiple commands and the client will execute them one by one.
 All the commands are executed using a single context, so you issue multiple related commands.
+
 
 To view the commands issued to a client, first select a client:
 ```python
