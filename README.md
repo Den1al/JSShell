@@ -35,6 +35,7 @@ pip install -r requirements.txt
 * Command Queue
 * Command Context
 * Injectable via `<script>` tags
+* Copy outputs to clipboard
 
 ## Running
 ### Create the database
