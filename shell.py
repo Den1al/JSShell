@@ -172,6 +172,16 @@ class InteractiveShell(object):
         clipboard.copy(beautify(c.output))
         print('Command {} was copied to clipboard'.format(command_id))
 
+    @client_required
+    def com_dump(self, command_id):
+        """ Copies a command output to clipboard """
+        c = Command.query.filter_by(rel_client_id=self.current_client_id, id=command_id).first()
+
+        with open('dump.txt', 'w') as f:
+            f.write(beautify(c.output))
+
+        print('Command {} was dumped to "dump.txt"'.format(command_id))
+
     def welcome(self):
         try:
             print("""
@@ -221,6 +231,9 @@ class InteractiveShell(object):
 
             elif op == 'copy':
                 self.com_copy(tail)
+
+            elif op == 'dump':
+                self.com_dump(tail)
 
             elif op == '':
                 continue
