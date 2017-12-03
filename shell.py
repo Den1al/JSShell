@@ -3,7 +3,7 @@ from app.models import Client, Command
 from prettytable import PrettyTable
 from time import sleep
 from jsbeautifier import beautify
-
+import clipboard
 
 class InteractiveShell(object):
     """ An interactive shell for the JSShell Project """
@@ -164,6 +164,13 @@ class InteractiveShell(object):
             Client.query.filter_by(id=client_id).delete()
         db.session.commit()
 
+    @client_required
+    def com_copy(self, command_id):
+        """ Copies a command output to clipboard """
+        c = Command.query.filter_by(rel_client_id=self.current_client_id, id=command_id).first()
+        clipboard.copy(beautify(c.output))
+        print('Command {} was copied to clipboard'.format(command_id))
+
     def welcome(self):
         try:
             print("""
@@ -210,6 +217,9 @@ class InteractiveShell(object):
 
             elif op == 'clik':
                 self.client_kill(tail)
+
+            elif op == 'copy':
+                self.com_copy(tail)
 
             elif op == '':
                 continue
