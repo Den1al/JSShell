@@ -50,6 +50,7 @@ class InteractiveShell(object):
         t.add_row(['com <id>', 'Displays a specific command and output for the current client'])
         t.add_row(['comk', 'Kills a command ("*" for all)'])
         t.add_row(['clik', 'Kills a client ("*" for all)'])
+        t.add_row(['copy <id>', 'Copies the command output to clipboard'])
         print(t)
 
     def select_client(self, selected_id):
