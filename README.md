@@ -35,7 +35,7 @@ pip install -r requirements.txt
 * Command Queue
 * Command Context
 * Injectable via `<script>` tags
-* Copy outputs to clipboard
+* Dumping output to file
 
 ## Running
 ### Create the database
@@ -86,6 +86,7 @@ The shell interface contains various commands (can be revealed using the `help` 
 | com <id>    | Displays a specific command and output for the current client |
 | comk        | Kills a command ("*" for all)                                 |
 | clik        | Kills a client ("*" for all)                                  |
+| dump <id>   | Dumps the command output to disk - "dump.txt"                 |
 +-------------+---------------------------------------------------------------+                               
 
 ```
