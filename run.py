@@ -12,6 +12,8 @@ if __name__ == "__main__":
     port = app.config.get('PORT')
     host = app.config.get('HOST')
 
+    print(port, host)
+
     print("Started JSShell server on {}:{} ...".format(host, port))
 
     http = WSGIServer((host, port), app.wsgi_app)
