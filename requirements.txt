@@ -1,4 +1,5 @@
 click==6.7
+clipboard==0.0.4
 EditorConfig==0.12.1
 Flask==0.12.2
 Flask-Cors==3.0.3
