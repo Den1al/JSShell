@@ -2,7 +2,7 @@
 
 An interactive multi-user web based shell written in Python with Flask (for server side) and of course Javascript and HTML (client side). It was initially created in order to debug remote esoteric browsers during tests and research. I am well aware of other purposes this tool might serve, use it at your own responsibility and risk.
 
-###### Version: 0.3
+###### Version: 0.4
 
 ## Author
 [Daniel Abeles](https://twitter.com/Daniel_Abeles).
