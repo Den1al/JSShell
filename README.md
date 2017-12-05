@@ -36,6 +36,7 @@ pip install -r requirements.txt
 * Command Context
 * Injectable via `<script>` tags
 * Dumping output to file
+* Shell pagination
 
 ## Running
 ### Create the database
@@ -73,21 +74,23 @@ The shell interface contains various commands (can be revealed using the `help` 
   By @Daniel_Abeles
 
 >> help
-+-------------+---------------------------------------------------------------+
-| command     | description                                                   |
-+-------------+---------------------------------------------------------------+
-| list        | Lists all the clients registered                              |
-| help        | self.help()                                                   |
-| select <id> | Selected a specific client from the list                      |
-| <command>   | Executes a command to the current selected client             |
-| back        | Detaches from the current client                              |
-| exit        | Exists this interactive shell                                 |
-| coms        | Displays the commands and output for the current client       |
-| com <id>    | Displays a specific command and output for the current client |
-| comk        | Kills a command ("*" for all)                                 |
-| clik        | Kills a client ("*" for all)                                  |
-| dump <id>   | Dumps the command output to disk - "dump.txt"                 |
-+-------------+---------------------------------------------------------------+                               
++-------------+----------------------------------------------------------+
+| command     | description                                              |
++-------------+----------------------------------------------------------+
+| list        | Lists all the clients registered                         |
+| help        | self.help()                                              |
+| select <id> | Selected a specific client from the list                 |
+| info <id>   | Prints information on a specific client                  |
+| <command>   | Executes a command to the current selected client        |
+| back        | Detaches from the current client                         |
+| exit        | Exists this interactive shell                            |
+| coms        | Displays the commands and output for the current client  |
+| com <id>    | Displays a specific command and output                   |
+| more <id>   | Displays a specific command and output (with pagination) |
+| comk        | Kills a command ("*" for all)                            |
+| clik        | Kills a client ("*" for all)                             |
+| dump <id>   | Dumps the command output to disk - "dump.txt"            |
++-------------+----------------------------------------------------------+                              
 
 ```
 Utilizing the command queue, you can fire multiple commands and the client will execute them one by one.
@@ -106,6 +109,10 @@ Then, issue the `coms` command to view all the commands for the client:
 To view the full command and it's full output (on the `coms` command the output is truncated to fit the screen):
 ```python
 (Client 1) >> com 1
+```
+If the command output is too large for your shell, you can utilize the `more` command:
+```python
+(Client 1) >> more 1
 ```
 
 ## Workflow
