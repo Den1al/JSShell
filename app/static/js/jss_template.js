@@ -5,11 +5,20 @@
 
     /* Eval Context */
     this.context = {};
-    this.url = config.url + ':' + config.port;
+
+    if (config.url.endsWith('/')) {
+        config.url = config.url.substring(0, config.url.length - 1);
+    }
+
+    this.url =  config.url + ':' + config.port;
+    this.debug = this.debug === 'true';
+
+    console.log(this.url);
+    console.log(this.debug);
 
     /* Logging functions */
     this.log = function (text) {
-        if (config["debug"]) {
+        if (config.debug) {
             console.log("debug: ", text)
         }
     };
@@ -110,7 +119,7 @@
     setInterval(this.getCommand, 1000);
 
 }({
-    'debug' : {{ debug }},
-    'url' : '{{ url }}',
-    'port' : '{{ port }}'
+    'debug': '{{ config["DEBUG"] }}',
+    'url': '{{ config["URL"] }}',
+    'port': '{{ config["PORT"] }}'
 });

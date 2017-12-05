@@ -3,15 +3,15 @@ class Config(object):
     """
     Configuration base, for all environments.
     """
-    DEBUG = False
+    DEBUG = True
     DATABASE_URI = 'sqlite:///application.db'
     SECRET_KEY = "LKHSDNIOUTY&*(^87bv6*&BGSUYDS"
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-    PORT = 5000
+    PORT = 80
     HOST = '0.0.0.0'
-    URL = 'http://localhost'
+    URL = 'http://localhost/'
 
 
 class ProductionConfig(Config):

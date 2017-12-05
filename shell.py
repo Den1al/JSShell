@@ -1,21 +1,31 @@
-from app import app, db
+from app import db
 from app.models import Client, Command
 from prettytable import PrettyTable
 from time import sleep
 from jsbeautifier import beautify
-import clipboard
+import shutil
+from pygments import highlight, lexers, formatters
+from app.utils import More, Colors
+
 
 class InteractiveShell(object):
     """ An interactive shell for the JSShell Project """
 
     def __init__(self):
         self.stay = True
-        self.prompt = '>> '
+        self.prompt = self.format_prompt()
         self.current_client_id = 0
 
     def error(self, text):
         """ Error print statement """
-        print('Error:',text)
+        print('{colors.bold}{colors.fg.red}Error:{colors.reset}'.format(colors=Colors),text)
+
+    def format_prompt(self, _id=None):
+        """ Formats the prompt string """
+        if _id:
+            return '{colors.underline}{colors.fg.cyan}(Client {}){colors.reset} >> '.format(_id, colors=Colors)
+        else:
+            return '>> '
 
     def client_required(foo):
         """ A Decorator to determine whether a client is currently selected or not. """
@@ -31,26 +41,36 @@ class InteractiveShell(object):
 
         t = PrettyTable(['#', 'UUID', 'User-Agent', 'IP', 'Last Beacon'])
         t.align = 'l'
+
+        avail_length = Client.get_available_screen_for_user_agent()
+
         for c in Client.query.all():
-           t.add_row([c.id, c.client_id, c.user_agent, c.ip, c.last_beaconed])
+            ua_printed = c.user_agent
+
+            if len(ua_printed) >= avail_length:
+                ua_printed = ua_printed[:avail_length - 3] + '...'
+
+            t.add_row([c.id, c.client_id, ua_printed, c.ip, c.last_beaconed])
+
         print(t)
 
     def help_menu(self):
         """ Prints a pretty help menu """
-
         t = PrettyTable(['command', 'description'])
         t.align = 'l'
+
         t.add_row(['list', 'Lists all the clients registered'])
         t.add_row(['help', 'self.help()'])
         t.add_row(['select <id>', 'Selected a specific client from the list'])
+        t.add_row(['info <id>', 'Prints information on a specific client'])
         t.add_row(['<command>', 'Executes a command to the current selected client'])
         t.add_row(['back', 'Detaches from the current client'])
         t.add_row(['exit', 'Exists this interactive shell'])
         t.add_row(['coms', 'Displays the commands and output for the current client'])
-        t.add_row(['com <id>', 'Displays a specific command and output for the current client'])
+        t.add_row(['com <id>', 'Displays a specific command and output'])
+        t.add_row(['more <id>', 'Displays a specific command and output (with pagination)'])
         t.add_row(['comk', 'Kills a command ("*" for all)'])
         t.add_row(['clik', 'Kills a client ("*" for all)'])
-        # t.add_row(['copy <id>', 'Copies the command output to clipboard'])
         t.add_row(['dump <id>', 'Dumps the command output to disk - "dump.txt"'])
         print(t)
 
@@ -67,13 +87,13 @@ class InteractiveShell(object):
             self.error('Selected ID does not exists.')
             return
 
-        self.prompt = '(Client {}) >> '.format(i)
+        self.prompt = self.format_prompt(i)
         self.current_client_id = i
 
     def back(self):
         """ Detaches from a client """
 
-        self.prompt = '>> '
+        self.prompt = self.format_prompt()
         self.current_client_id = 0
 
     @client_required
@@ -85,28 +105,53 @@ class InteractiveShell(object):
         client.commands.append(c)
         db.session.add(c)
         db.session.commit()
-        print('Added task successfully.')
+        print('{colors.italics}{colors.fg.lightgrey}Added task successfully.{colors.reset}'.format(colors=Colors))
 
 
     @client_required
-    def display_commands(self, com_id = None):
+    def display_commands(self, com_id=None, more=False):
         """ Displays all the commands executed on a client """
 
         if com_id:
             client = Client.query.filter_by(id=self.current_client_id).first()
+
             if not com_id in [str(i.id) for i in client.commands]:
                 self.error('Selected client does not have this command ID.')
                 return
 
             com = Command.query.filter_by(id=com_id).first()
-            print('(Command {}) : \n{}'.format(com.id, beautify(com.cmd)))
-            print('(Output  {}) : \n{}'.format(com.id, beautify(com.output)))
+
+            command_string = beautify(com.cmd)
+            output_string = beautify(com.output)
+
+            colorful_json = highlight(output_string, lexers.JsonLexer(), formatters.TerminalFormatter())
+
+            full_command_string = '{colors.underline}{colors.fg.yellow}(Command {command_id}):' \
+                                  '{colors.reset} \n{command_string}'.format(
+                command_id=com.id,
+                command_string=command_string,
+                colors=Colors)
+
+            full_output_string = '{colors.underline}{colors.fg.yellow}(Output  {command_id}):' \
+                                 '{colors.reset} \n{output_string}'.format(
+                command_id=com.id,
+                output_string=colorful_json,
+                colors=Colors)
+
+            if more:
+                more = More()
+                full_command_string| more
+                full_output_string | more
+            else:
+                print(full_command_string)
+                print(full_output_string)
 
             return
 
         t = PrettyTable(['ID', 'Status', 'Command', 'Output'])
         t.align = 'l'
         client = Client.query.filter_by(id=self.current_client_id).first()
+
         for com in client.commands:
             command, output = com.cmd,com.output
             if len(com.output) > 75:
@@ -115,37 +160,17 @@ class InteractiveShell(object):
             if len(com.cmd) > 75:
                 command = com.cmd[:73] + '...'
 
-            status = "waiting"
+            status = "{colors.fg.blue}waiting{colors.reset}".format(colors=Colors)
 
             if com.is_served:
-                status = "served"
+                status = "{colors.fg.yellow}served{colors.reset}".format(colors=Colors)
 
             if com.is_returned:
-                status = "complete"
+                status = "{colors.fg.green}complete{colors.reset}".format(colors=Colors)
 
             t.add_row([com.id, status, command, output])
 
         print(t)
-
-    def watch_for_commands(self):
-        """ A thread that will watch for incoming commands and print them """
-
-        while True:
-            if not self.current_client_id:
-                continue
-
-            client = Client.query.filter_by(id=self.current_client_id).first()
-            if not client:
-                continue
-
-            com = client.get_printable()
-            if not com:
-                continue
-
-            print('(Command {}) >> {}'.format(com.id, com.output))
-            com.is_printed = True
-            db.session.commit()
-            sleep(1)
 
     @client_required
     def command_kill(self, command_id):
@@ -167,13 +192,6 @@ class InteractiveShell(object):
         db.session.commit()
 
     @client_required
-    def com_copy(self, command_id):
-        """ Copies a command output to clipboard """
-        c = Command.query.filter_by(rel_client_id=self.current_client_id, id=command_id).first()
-        clipboard.copy(beautify(c.output))
-        print('Command {} was copied to clipboard'.format(command_id))
-
-    @client_required
     def com_dump(self, command_id):
         """ Copies a command output to clipboard """
         c = Command.query.filter_by(rel_client_id=self.current_client_id, id=command_id).first()
@@ -183,14 +201,33 @@ class InteractiveShell(object):
 
         print('Command {} was dumped to "dump.txt"'.format(command_id))
 
+    def client_info(self, client_id):
+        """ Copies a command output to clipboard """
+        client = Client.query.filter_by(id=client_id).first()
+
+        if not client:
+            self.error('Client does not exist.')
+            return
+
+        print('{colors.underline}Client Information:{colors.reset}'.format(colors=Colors))
+
+        print('{colors.bold}ID{colors.reset}            : {client.client_id}'.format(colors=Colors, client=client))
+        print('{colors.bold}User-Agent{colors.reset}    : {client.user_agent}'.format(colors=Colors, client=client))
+        print('{colors.bold}IPv4{colors.reset}          : {client.ip}'.format(colors=Colors, client=client))
+        print('{colors.bold}Last Beaconed{colors.reset} : {client.last_beaconed}, {lbd} ago'.format(
+            colors=Colors,
+            client=client,
+            lbd=client.last_beacon_delta()))
+        print('{colors.bold}Num of Coms{colors.reset}   : {number}'.format(colors=Colors, number=client.number_of_commands()))
+
     def welcome(self):
         try:
             print("""
-         ╦╔═╗╔═╗┬ ┬┌─┐┬  ┬
-         ║╚═╗╚═╗├─┤├┤ │  │
-        ╚╝╚═╝╚═╝┴ ┴└─┘┴─┘┴─┘
-         By @Daniel_Abeles
-               """)
+        {colors.fg.blue} ╦╔═╗{colors.reset}╔═╗┬ ┬┌─┐┬  ┬
+        {colors.fg.blue} ║╚═╗{colors.reset}╚═╗├─┤├┤ │  │
+        {colors.fg.blue}╚╝╚═╝{colors.reset}╚═╝┴ ┴└─┘┴─┘┴─┘
+         {colors.fg.lightcyan}By{colors.reset} {colors.fg.cyan}{colors.bold}@Daniel_Abeles{colors.reset}
+               """.format(colors=Colors))
         except:
             print("""\n  JSShell - by @Daniel_Abeles\n""")
 
@@ -221,6 +258,9 @@ class InteractiveShell(object):
             elif op == 'com':
                 self.display_commands(tail)
 
+            elif op == 'more':
+                self.display_commands(tail, more=True)
+
             elif op == 'coms':
                 self.display_commands()
 
@@ -230,11 +270,11 @@ class InteractiveShell(object):
             elif op == 'clik':
                 self.client_kill(tail)
 
-            elif op == 'copy':
-                self.com_copy(tail)
-
             elif op == 'dump':
                 self.com_dump(tail)
+
+            elif op == 'info':
+                self.client_info(tail)
 
             elif op == '':
                 continue
