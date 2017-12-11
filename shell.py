@@ -72,7 +72,6 @@ class InteractiveShell(object):
         t.add_row(['comk', 'Kills a command ("*" for all)'])
         t.add_row(['clik', 'Kills a client ("*" for all)'])
         t.add_row(['dump <id>', 'Dumps the command output to disk - "dump.txt"'])
-
         print(t)
 
     def select_client(self, selected_id):
@@ -191,7 +190,6 @@ class InteractiveShell(object):
         else:
             Client.query.filter_by(id=client_id).delete()
         db.session.commit()
-
 
     @client_required
     def com_dump(self, command_id):
