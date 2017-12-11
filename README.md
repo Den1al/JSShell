@@ -39,6 +39,14 @@ pip install -r requirements.txt
 * Shell pagination
 
 ## Running
+### Create the configuration file
+```python
+cd app
+cp config.py.template config.py
+```
+Now you can change the settings you need
+
+
 ### Create the database
 ```python
 python db_handler.py create
@@ -48,7 +56,7 @@ python db_handler.py create
 python run.py
 ```
 ### Navigate with a browser to the server address
-If you running locally, then navigate to `http://localhost:5000` (port can be changed)
+If you running locally, then navigate to `http://localhost:5000` (port/host can be changed)
 
 ### Open the interactive shell
 ```python
