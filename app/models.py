@@ -1,6 +1,9 @@
+import json
 from app import db
+import shutil
 from .utils import get_date, datetime_to_text, dict_to_beautified_json
-
+from humanfriendly import format_timespan
+import datetime
 
 class Client(db.Model):
     """ Represents a Client in the system """
@@ -36,6 +39,11 @@ class Client(db.Model):
         for cmd in cmds:
             self.add_command(cmd)
 
+    def add_preflight(self):
+        with open('app/preflight.json', 'r') as f:
+            scripts = json.load(f)
+            self.add_commands(scripts)
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -46,13 +54,32 @@ class Client(db.Model):
             'commands': [cmd.to_dict() for cmd in self.commands]
         }
 
+    @staticmethod
+    def get_available_screen_for_user_agent():
+        """ Get the available length for the user agent """
+
+        column_padding = 18
+        avail_length = 0
+
+        for c in Client.query.all():
+            columns_length = len(str(c.id)) + len(str(c.client_id)) + len(str(c.last_beaconed)) + len(str(c.ip))
+            current_avail_length = shutil.get_terminal_size().columns - columns_length - column_padding
+            avail_length = max(avail_length, current_avail_length)
+
+        return avail_length
+
+    def number_of_commands(self):
+        return len([x for x in self.commands])
+
+    def last_beacon_delta(self):
+        return format_timespan((datetime.datetime.now() - self.last_beaconed).seconds)
+
     def __repr__(self):
         return dict_to_beautified_json(self.to_dict())
 
 
 class Command(db.Model):
     """ Represents a Command of a Client """
-
     __tablename__ = 'command'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -83,6 +110,3 @@ class Command(db.Model):
 
     def __repr__(self):
         return dict_to_beautified_json(self.to_dict())
-
-
-

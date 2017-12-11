@@ -3,7 +3,6 @@ import json
 
 from app import app, db
 from .models import Client, Command
-from .preflight_scripts import pf_scripts
 
 
 @app.route('/')
@@ -31,7 +30,7 @@ def register():
             db.session.add(c)
 
             # add pre flight scripts
-            c.add_commands(pf_scripts)
+            c.add_preflight()
 
             db.session.commit()
 
