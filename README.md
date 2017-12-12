@@ -7,6 +7,9 @@ An interactive multi-user web based shell written in Python with Flask (for serv
 ## Author
 [Daniel Abeles](https://twitter.com/Daniel_Abeles).
 
+### Shell Video
+[![asciicast](https://asciinema.org/a/152288.png)](https://asciinema.org/a/152288)
+
 ## Installation
 It is recommended to use a virtual environment (I used python 3.6, but eariler work just fine):
 ### Pyenv
