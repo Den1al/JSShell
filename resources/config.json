@@ -1,0 +1,13 @@
+{
+  "HOST": "0.0.0.0",
+  "PORT": 5000,
+  "MONGO": {
+    "MONGODB_DB": "admin",
+    "MONGODB_HOST": "db",
+    "MONGODB_PORT": 27017,
+    "MONGODB_USERNAME": "mongo",
+    "MONGODB_PASSWORD": "sadarfd23r23rdasd"
+  },
+  "STARTUP_SCRIPT": "resources/shell_startup_script",
+  "URL": "http://localhost:5000"
+}
