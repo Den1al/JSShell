@@ -1,0 +1,1 @@
+b '{"app":{"isInstalled":false},"webstore":{"onInstallStageChanged":{},"onDownloadProgress":{}}}'
