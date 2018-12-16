@@ -22,8 +22,7 @@
 	} else {
 		factory( global );
 	}
-
-// Pass this if window is not defined yet
+	
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
 // Edge <= 12 - 13+, Firefox <=18 - 45+, IE 10 - 11, Safari 5.1 - 9+, iOS 6 - 9.1
