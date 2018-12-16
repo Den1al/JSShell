@@ -1,5 +1,9 @@
 # JSShell 2.0
 
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![Generic badge](https://img.shields.io/badge/docker-friendly-blue.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/python-3.6+-green.svg)](https://shields.io/)
+
 An interactive multi-user web based javascript shell. It was initially created in order to debug remote 
 esoteric browsers during experiments and research. This tool can be easily attached to XSS (Cross Site Scripting)
 payload to achieve browser remote code execution (similar to the BeeF framework).
