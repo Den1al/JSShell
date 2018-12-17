@@ -28,5 +28,5 @@ def start_api_server() -> None:
     app.run(
         host=config.get('HOST', 'localhost'),
         port=config.get('PORT', 5000),
-        debug=True
+        debug=config.get('DEBUG', False)
     )

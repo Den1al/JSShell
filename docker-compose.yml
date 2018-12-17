@@ -8,8 +8,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: sadarfd23r23rdasd
       MONGO_INITDB_DATABASE: jsshell
-    ports:
-    - "27017:27017"
 
   web:
     build: .
