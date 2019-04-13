@@ -3,7 +3,7 @@
         $.ajax({
             async: false,
             method: 'POST',
-            url: "{{ url_for('api.register') }}",
+            url: config.registerUrl,
             data: {
                 user_agent: navigator.userAgent
             },
