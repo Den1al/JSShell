@@ -1,3 +1,6 @@
+from web.api import api as api_bp
+from web.content import content as content_bp
+from web.main import main as main_bp
 from flask import Flask
 from flask_cors import CORS
 
@@ -12,13 +15,10 @@ CORS(app)
 
 db.init_app(app)
 
-from web.api import api as api_bp
 app.register_blueprint(api_bp)
 
-from web.content import content as content_bp
 app.register_blueprint(content_bp)
 
-from web.main import main as main_bp
 app.register_blueprint(main_bp)
 
 
