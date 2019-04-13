@@ -63,7 +63,7 @@ class CommandsPlugin(BasePlugin):
 
         cmds_text += self.print_pairs('Output Information', body={
             'Created On  ': cmd.output.created_on,
-            'Output      ':  f'{ self.t.bold_white("<< output below >>") }\n{ js_beautify(cmd.output.text) }',
+            'Output      ': f'{ self.t.bold_white("<< output below >>") }\n{ js_beautify(cmd.output.text) }',
         }, just_return=True)
 
         self.ppaged(cmds_text)
