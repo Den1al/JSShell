@@ -69,7 +69,7 @@ class DumpPlugin(BasePlugin):
         if cmd.output:
             cmds_text += '\n\n' + self.print_pairs('Output Information', body={
                 'Created On  ': cmd.output.created_on,
-                'Output      ':  f'"<< output below >>" \n{ js_beautify(cmd.output.text, colors=False) }',
+                'Output      ': f'"<< output below >>" \n{ js_beautify(cmd.output.text, colors=False) }',
             }, just_return=True, colors=False)
 
         with open(file_name, 'w') as f:
