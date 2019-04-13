@@ -46,7 +46,7 @@ This new version instructed installing and running via `docker` and `docker-comp
 JSShell framework, simply run:
 
 ```bash
-$ ./start_docker_shell.sh
+$ ./scripts/start_docker_shell.sh
 ```
 
 This will:
