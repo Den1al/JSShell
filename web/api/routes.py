@@ -32,6 +32,7 @@ def register():
     })
 
 
+
 @api.route('/poll', methods=['GET'])
 def poll_new_commands():
     """ The view where a client reaches when
