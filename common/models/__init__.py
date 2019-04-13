@@ -1,3 +1,3 @@
-from flask_mongoengine import MongoEngine
+from common.utils import create_db
 
-db = MongoEngine()
+db = create_db()

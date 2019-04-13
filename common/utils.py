@@ -3,6 +3,27 @@ import uuid
 from typing import Any, Sequence
 
 import arrow
+from flask import Flask
+from flask_mongoengine import MongoEngine
+
+from common.config import read_config
+
+
+def create_dummy_app() -> Flask:
+    config = read_config()
+    app = Flask(__name__)
+    app.config['MONGODB_SETTINGS'] = config.get('MONGO', {})
+    return app
+
+
+def create_db() -> MongoEngine:
+    db = MongoEngine()
+    dummy_app = create_dummy_app()
+
+    db.init_app(dummy_app)
+    del dummy_app
+
+    return db
 
 
 def now() -> datetime:
