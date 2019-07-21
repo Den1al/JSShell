@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-# from OpenSSL import SSL
 
 from common.config import read_config
 from common.models import db
@@ -27,11 +26,6 @@ def start_api_server() -> None:
 
     domain_name = config.get('DOMAIN', '')
     lets_encrypt_base_path = f'/etc/letsencrypt/live/{domain_name}/'
-
-    # ssl_context = SSL.Context(SSL.TLSv1_2_METHOD)
-    # ssl_context.use_privatekey_file(lets_encrypt_base_path + 'privkey.pem')
-    # ssl_context.use_certificate_chain_file(lets_encrypt_base_path + 'fullchain.pem')
-    # ssl_context.use_certificate_file(lets_encrypt_base_path + 'cert.pem')
 
     app.run(
         host=config.get('HOST', 'localhost'),
