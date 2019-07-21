@@ -45,7 +45,7 @@ for new commands. Usually it will be `http[s]://{YOUR_SERVER_IP}:{PORT}`.
 
 ### Let's Encrypt
 Now JSShell supports TLS, which means you can now generate TLS certificates and feed them to the web server.
-The web server will infer the domain name from the `config.json` file. In order to creare the certificate,
+The web server will infer the domain name from the `config.json` file. In order to create the certificate,
 use the `create_cert.py` script in the `scripts` folder:
 
 ```bash
@@ -56,7 +56,7 @@ $ python create_cert.py --domain <YOUR_DOMAIN> --email <YOUR_EMAIL>
 ##### the email field is optional.
 
 Please note that the web server must be down in order for the script to function properly. At this point, we have
-successfuly generated our certificates! The sole modifications we need to do are:
+successfully generated our certificates! The sole modifications we need to do are:
 * In the `config.json` file, change the schema of the `URL` field to `https`.
 * In the `docker-compose.yml` file change the exposed port of the `web` container to `443`.
 
