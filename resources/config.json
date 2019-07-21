@@ -7,8 +7,9 @@
     "MONGODB_HOST": "db",
     "MONGODB_PORT": 27017,
     "MONGODB_USERNAME": "mongo",
-    "MONGODB_PASSWORD": "sadarfd23r23rdasd"
+    "MONGODB_PASSWORD": "jdfhds8fy890437f0934f34"
   },
   "STARTUP_SCRIPT": "resources/shell_startup_script",
-  "URL": "http://localhost:5000"
+  "URL": "https://jsshell.eval.co.il",
+  "DOMAIN": "jsshell.eval.co.il"
 }
