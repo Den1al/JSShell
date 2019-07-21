@@ -6,20 +6,19 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: sadarfd23r23rdasd
+      MONGO_INITDB_ROOT_PASSWORD: jdfhds8fy890437f0934f34
       MONGO_INITDB_DATABASE: jsshell
-    ports:
-    - "27017:27017"
 
   web:
     build: .
     command: python manage.py web
     ports:
-      - "5000:5000"
+    - "443:5000"
     volumes:
     - '.:/app/'
+    - '/etc/letsencrypt/:/etc/letsencrypt/'
     depends_on:
-      - db
+      - db  
 
   shell:
     build: .
@@ -33,3 +32,4 @@ services:
     depends_on:
       - db
       - web
+
