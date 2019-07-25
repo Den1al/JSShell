@@ -12,11 +12,17 @@ class Client(db.Document):
 
     cid = db.StringField(required=True, primary_key=True, default=new_uuid)
     user_agent = db.StringField(default='-')
+    ip = db.StringField(default='-')
     registered_on = db.DateTimeField(default=now)
     last_seen = db.DateTimeField(default=now)
     commands = db.ListField(
         db.ReferenceField(Command)
     )
+
+    @property
+    def ip_length_on_screen(self):
+        """ Return the length of the IP address + padding """
+        return len(self.ip) + 3
 
     @property
     def reversed_commands(self) -> CommandsList:
@@ -68,7 +74,19 @@ class Client(db.Document):
     def unique_client_ids() -> List[str]:
         """ Generates a list of all unique client ID's """
 
-        return [str(client.cid) for client in Client.objects]
+        return [str(client.cid) for client in Client.objects] + ['*']
+
+    @staticmethod
+    def delete_all_clients() -> None:
+        for client in Client.objects:
+            client.delete_from_db()
+
+    def delete_from_db(self):
+        for cmd in self.commands:
+            cmd.delete_from_db(save=False)
+
+        self.delete()
+        self.save()
 
     def _generate_shortened_user_agent(self, max_user_agent_width: int) -> int:
         """ Generates a shortened user agent string according to the
@@ -110,6 +128,7 @@ class Client(db.Document):
 
         return [
             self.cid,
+            self.ip,
             self._generate_shortened_user_agent(max_user_agent_width),
             self.registered_on,
             self.humanized_last_seen
@@ -120,6 +139,7 @@ class Client(db.Document):
 
         return f'<Client: ' \
                f'cid="{self.cid}", ' \
+               f'ip="{self.ip}", ' \
                f'user_agent="{self.user_agent}", ' \
                f'registered_on="{self.registered_on}",' \
                f' last_seen="{self.last_seen}"' \

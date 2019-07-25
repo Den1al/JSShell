@@ -19,7 +19,8 @@ def register():
         when he desires to register """
 
     c = Client(
-        user_agent=request.form.get('user_agent', '-')
+        user_agent=request.form.get('user_agent', '-'),
+        ip=request.remote_addr
     )
     c.save()
 

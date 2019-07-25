@@ -46,7 +46,7 @@ def available_max_width_on_screen_for_commands(max_command_length: int, max_outp
         return space_left - max_output_length, max_output_length
 
 
-def available_max_width_on_screen_for_clients(max_last_seen_length: int) -> int:
+def available_max_width_on_screen_for_clients(max_last_seen_length: int, max_ip_length: int) -> int:
     """ Returns the longest available width for the clients plugin.
         Due to the fact we have constant values in the table, we can
         calculate the remaining available width for the rest of the
@@ -60,7 +60,7 @@ def available_max_width_on_screen_for_clients(max_last_seen_length: int) -> int:
     width, _ = get_terminal_size()
     space_left = width - table_buffer - date_length - id_length
 
-    return space_left - max_last_seen_length
+    return space_left - max_last_seen_length - max_ip_length
 
 
 def clear_screen() -> None:
