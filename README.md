@@ -166,5 +166,14 @@ a new client will pop up into your JSShell CLI client. Now it is debuggable via 
 [Canop](https://github.com/Canop) for [JSON.prune](https://github.com/Canop/JSON.prune/)
 
 
+## FAQ
+##### Q: Why does JSShel ignores characters like `#` and `*`?
+A: Actually, there is nothing wrong with JSShell, those characters are not being passed by the shell.
+To run commands with those characters simply wrap the command with quotes:
+```bash
+[Client #ID] >> execute "COMMAND_WITH_#_AND_*"
+```
+
+
 
 ###### use it at your own responsibility and risk.
