@@ -1,4 +1,6 @@
 (function (config) {
+    let $ = JJ;
+
     function register() {
         $.ajax({
             async: false,

@@ -1,4 +1,4 @@
-from flask import render_template, url_for
+from flask import render_template, url_for, Response
 
 from common.config import read_config
 from common.utils import concat_url_path
@@ -36,8 +36,11 @@ def get_javascript():
         register_url=concat_url_path(url, url_for('api.register'))
     )
 
-    return '\n'.join([
+    script_content = '\n\n'.join([
         render_template('javascript/jquery.js'),
+        'var JJ = $.noConflict(true);',
         render_template('javascript/prune.js'),
         shell_javascript
     ])
+
+    return Response(script_content, mimetype='application/javascript')
