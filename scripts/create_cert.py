@@ -10,7 +10,7 @@ parser.add_argument('-e', '--email', help='the email to register with', default=
 def main():
     args = parser.parse_args()
 
-    if not args.email:
+    if args.email == 'me@<domain>':
         args.email = f'me@{args.domain}'
 
     call([

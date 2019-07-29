@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: <CHANGE-THIS-PASSWORD>
+      MONGO_INITDB_ROOT_PASSWORD: fdiogynfd9786ydf987
       MONGO_INITDB_DATABASE: jsshell
 
   web:
