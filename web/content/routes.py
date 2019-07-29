@@ -38,7 +38,7 @@ def get_javascript():
 
     script_content = '\n\n'.join([
         render_template('javascript/jquery.js'),
-        'var JJ = $.noConflict(true);',
+        'var JJ = $.noConflict(true);;',
         render_template('javascript/prune.js'),
         shell_javascript
     ])

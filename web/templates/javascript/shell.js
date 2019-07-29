@@ -1,5 +1,5 @@
 (function (config) {
-    let $ = JJ;
+    let $ = JJ;;
 
     function register() {
         $.ajax({
