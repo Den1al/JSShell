@@ -79,6 +79,15 @@ class Command(db.Document):
 
         return self.output.text[:max_cmd_width - 3] + '...'
 
+    def delete_from_db(self, save=True):
+        if self.output:
+            self.output.delete()
+
+        self.delete()
+
+        if save:
+            self.save()
+
     def set_served(self) -> None:
         """ Handles all the needed operations to set the `is_served` status """
 

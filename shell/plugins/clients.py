@@ -52,22 +52,29 @@ class ClientsPlugin(BasePlugin):
     def _client_plugin_handle_single_id(self, client_id: str) -> None:
         """ Shows information for a specific client ID """
 
-        client = Client.objects(cid=client_id).first()
+        client: Client = Client.objects(cid=client_id).first()
 
         if not client:
             self.print_error('client does not exist!')
         else:
             self.print_pairs('Client Information', {
                 'ID              ': client.cid,
+                'IP Address      ': client.ip,
                 'Registered On   ': client.registered_on,
                 'Last Seen       ': client.humanized_last_seen,
-                'Num of Commands ': len(client.commands)
+                'Num of Commands ': len(client.commands),
+                'User Agent      ': client.user_agent,
             })
 
     def _client_plugin_handle_kill(self, client_id: str) -> None:
         """ Removes a specific client from the database """
 
-        client = Client.objects(cid=client_id).first()
+        if client_id == '*':
+            Client.delete_all_clients()
+            self.print_ok('Killed all clients!')
+            return
+
+        client: Client = Client.objects(cid=client_id).first()
 
         if not client:
             self.print_error('client does not exist!')
@@ -75,23 +82,27 @@ class ClientsPlugin(BasePlugin):
             if client == self.selected_client:
                 self.print_error('you cant kill the selected client!')
             else:
-                client.delete()
+                client.delete_from_db()
                 self.print_ok('client deleted successfully!')
 
     def _client_plugin_handle_show_all(self, limit: int) -> None:
         """ Shows all clients in the database """
 
-        clients = list(Client.objects.order_by('-registered_on')[:limit])
+        clients: List[Client] = list(Client.objects.order_by('-registered_on')[:limit])
 
         max_last_seen = 0 if not clients else max([
             len(str(client.humanized_last_seen)) for client in clients
         ])
 
-        max_user_agent_width = available_max_width_on_screen_for_clients(max_last_seen)
+        max_ip_length = 0 if not clients else max([
+            client.ip_length_on_screen for client in clients
+        ])
+
+        max_user_agent_width = available_max_width_on_screen_for_clients(max_last_seen, max_ip_length)
 
         table = tf.generate_table(
             grid_style=tf.FancyGrid(),
-            columns=['ID', 'User Agent', 'Registered On', 'Last Seen'],
+            columns=['ID', 'IP', 'User Agent', 'Registered On', 'Last Seen'],
             rows=[
                 client.to_table_list(max_user_agent_width)
                 for client in clients

@@ -166,5 +166,4 @@ a new client will pop up into your JSShell CLI client. Now it is debuggable via 
 [Canop](https://github.com/Canop) for [JSON.prune](https://github.com/Canop/JSON.prune/)
 
 
-
 ###### use it at your own responsibility and risk.
