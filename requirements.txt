@@ -17,7 +17,7 @@ ipython==7.2.0
 ipython-genutils==0.2.0
 itsdangerous==1.1.0
 jedi==0.13.1
-Jinja2==2.10.1
+Jinja2==2.11.3
 jsbeautifier==1.8.9
 MarkupSafe==1.1.0
 mongoengine==0.16.3
