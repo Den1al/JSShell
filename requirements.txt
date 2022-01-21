@@ -13,7 +13,7 @@ Flask==1.0.2
 Flask-Cors==3.0.7
 flask-mongoengine==0.9.5
 Flask-WTF==0.14.2
-ipython==7.2.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 itsdangerous==1.1.0
 jedi==0.13.1
