@@ -1,5 +1,5 @@
 appnope==0.1.0
-arrow==0.12.1
+arrow==0.15.1
 attrs==18.2.0
 backcall==0.1.0
 blessings==1.7
